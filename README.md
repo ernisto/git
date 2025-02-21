@@ -5,7 +5,7 @@ a pull request for new features if you thinking about use it too
 # Installation
 this module officially can be installed only via [pesde](https://github.com/pesde-pkg/pesde)
 ```bash
-pesde install ernisto/git
+pesde add ernisto/git
 ```
 
 # Documentation (wip)
