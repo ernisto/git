@@ -1,0 +1,9 @@
+# local secrets
+.env
+
+# locally generated
+.pesde
+
+# packages
+luau_packages
+lune_packages

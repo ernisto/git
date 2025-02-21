@@ -1,0 +1,48 @@
+name = "ernisto/git"
+version = "0.0.1"
+target = "lune"
+
+[graph."lukadev_0/future@1.0.1 lune"]
+direct = ["future", { name = "lukadev_0/future", version = "^1.0.1", index = "default", target = "lune" }, "standard"]
+resolved_ty = "standard"
+
+[graph."lukadev_0/future@1.0.1 lune".dependencies]
+"lukadev_0/option@1.2.0 lune" = "option"
+"lukadev_0/std@1.0.1 lune" = "std"
+"lukadev_0/threadpool@1.0.1 lune" = "threadpool"
+
+[graph."lukadev_0/future@1.0.1 lune".pkg_ref]
+ref_ty = "pesde"
+index_url = "https://github.com/pesde-pkg/index"
+
+[graph."lukadev_0/future@1.0.1 lune".pkg_ref.dependencies]
+option = [{ name = "lukadev_0/option", version = "^1.1.1", index = "https://github.com/daimond113/pesde-index", target = "lune" }, "standard"]
+std = [{ name = "lukadev_0/std", version = "^1.0.1", index = "https://github.com/daimond113/pesde-index", target = "lune" }, "standard"]
+threadpool = [{ name = "lukadev_0/threadpool", version = "^1.0.1", index = "https://github.com/daimond113/pesde-index", target = "lune" }, "standard"]
+
+[graph."lukadev_0/option@1.2.0 lune"]
+resolved_ty = "standard"
+
+[graph."lukadev_0/option@1.2.0 lune".pkg_ref]
+ref_ty = "pesde"
+index_url = "https://github.com/daimond113/pesde-index"
+
+[graph."lukadev_0/std@1.0.1 lune"]
+resolved_ty = "standard"
+
+[graph."lukadev_0/std@1.0.1 lune".pkg_ref]
+ref_ty = "pesde"
+index_url = "https://github.com/daimond113/pesde-index"
+
+[graph."lukadev_0/threadpool@1.0.1 lune"]
+resolved_ty = "standard"
+
+[graph."lukadev_0/threadpool@1.0.1 lune".dependencies]
+"lukadev_0/std@1.0.1 lune" = "std"
+
+[graph."lukadev_0/threadpool@1.0.1 lune".pkg_ref]
+ref_ty = "pesde"
+index_url = "https://github.com/daimond113/pesde-index"
+
+[graph."lukadev_0/threadpool@1.0.1 lune".pkg_ref.dependencies]
+std = [{ name = "lukadev_0/std", version = "^1.0.1", index = "https://github.com/daimond113/pesde-index", target = "lune" }, "standard"]
