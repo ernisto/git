@@ -8,6 +8,7 @@ local u32 = types.u32
 type u32 = types.u32
 
 -- defs
+local V2_SIGNATURE = "\xFFtOc"
 export type pack_index = {
     data: buffer,
     version: number,
@@ -25,11 +26,11 @@ local function read_id(pack_id: sha1): pack_index
     local data = buffer.fromstring(fs.readFile(path))
     local cursor = 0
 
-    local sig = buffer.readstring(data, cursor, #types.v2_signature)
-    cursor += #types.v2_signature
+    local sig = buffer.readstring(data, cursor, #V2_SIGNATURE)
+    cursor += #V2_SIGNATURE
 
     -- version
-    local version = if sig == types.v2_signature then 2 else 1
+    local version = if sig == V2_SIGNATURE then 2 else 1
     if version == 2 then
         local _version = u32.read_be(data, cursor)
         cursor += u32.size
@@ -67,7 +68,7 @@ local function find_object_id(pack_id: sha1, object_id: sha1): (u32, u32)
     local seeking_first_byte = tonumber(string.sub(object_id, 1, 2), 16) or error(`invalid object id (must to be a string with 40 hex characters)`)
     local index = fanout[seeking_first_byte]
 
-    local sha1_cursor = #types.v2_signature + u32.size + 256 * u32.size
+    local sha1_cursor = #V2_SIGNATURE + u32.size + 256 * u32.size
     local crcs_cursor = sha1_cursor + objects_amount * sha1.size
     local offsets_cursor = crcs_cursor + objects_amount * u32.size
 

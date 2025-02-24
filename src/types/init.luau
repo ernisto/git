@@ -58,8 +58,6 @@ export type tree = {}
 export type glob = {}
 
 -- consts
-local V2_SIGNATURE = "\xFFtOc"
-
 local object_kind: any = table.freeze { 'commit', 'tree', 'blob', 'tag', 'offset_delta', 'ref_delta' }
 export type object_kind = 'commit' | 'tree' | 'blob' | 'tag' | 'offset_delta' | 'ref_delta'
 
@@ -69,6 +67,5 @@ return table.freeze {
     sha1 = sha1,
     u32 = u32,
 
-    v2_signature = V2_SIGNATURE,
     object_kind = object_kind :: {object_kind},
 }
