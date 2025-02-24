@@ -65,8 +65,6 @@ local function read_from_id(id: types.sha1): types.commit
     local raw = object.read_from_id(id)
         or error(`couldnt possible read object '{id}'`)
 
-    -- print('commit', id, 'raw:\n', raw)
-
     local commit = try_parse(raw, id)
         or error(`object '{id}' probably isnt a commit\n{raw}`)
 
