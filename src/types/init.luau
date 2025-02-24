@@ -48,7 +48,8 @@ export type commit = {
 
     author: user,
     committer: user,
-    timestamp: number,
+    local_timestamp: number,
+    global_timestamp: number,
     message: message,
 }
 export type tree = {}
