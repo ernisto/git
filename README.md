@@ -35,7 +35,9 @@ local commit = commit.read_from_id("2387d09d9d5e17162cee849db9595255eb0e0d01")
 ### ref (branches and tags)
 
 head.read_from_id(id: ref_id): ref
+
 tag.read_from_id(id: ref_id): ref
+
 ref.read_from_id(id: ref_id): ref
 ```lua
 local tag = git.tag.read_from_id("refs/tags/v1.0.0")
@@ -43,6 +45,7 @@ local same_tag = git.tag.read_from_name("v1.0.0")
 ```
 
 head.read_all(): ref
+
 tag.read_all(): ref
 ```lua
 for id, branch in git.head.read_all() do
