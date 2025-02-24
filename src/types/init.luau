@@ -1,7 +1,4 @@
 -- primitives
-local semver = require('semver')
-export type semver = semver.version
-
 local sha1 = require('sha1')
 export type sha1 = sha1.sha1
 
@@ -63,7 +60,6 @@ export type object_kind = 'commit' | 'tree' | 'blob' | 'tag' | 'offset_delta' | 
 
 -- module
 return table.freeze {
-    semver = semver,
     sha1 = sha1,
     u32 = u32,
 

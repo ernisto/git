@@ -1,6 +1,5 @@
 local types = require('@lib/types')
 
-export type semver = types.semver
 export type user = types.user
 export type sha1 = types.sha1
 
@@ -24,5 +23,4 @@ return table.freeze {
 
     query = require('query'),
     user = require('user'),
-    semver = types.semver,
 }
