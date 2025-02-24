@@ -23,4 +23,5 @@ return table.freeze {
 
     query = require('query'),
     user = require('user'),
+    mock = require('mock'),
 }

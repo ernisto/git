@@ -8,6 +8,12 @@ export type raw_object = string
 
 -- constructor
 local cache = {}
+local function load_object(id: types.sha1, object: raw_object): raw_object
+
+    cache[id] = object
+    return object
+end
+
 local function read_from_id(id: types.sha1): raw_object?
 
     if cache[id] then return cache[id] end
@@ -18,12 +24,12 @@ local function read_from_id(id: types.sha1): raw_object?
         else pack.read_object_id(id)
 
     if not raw_object then return end
-
-    cache[id] = raw_object
-    return raw_object
+    return load_object(id, raw_object)
 end
 
 -- module
 return table.freeze {
     read_from_id = read_from_id,
+
+    _load = load_object
 }

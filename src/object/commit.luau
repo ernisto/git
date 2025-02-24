@@ -34,6 +34,12 @@ local schema = {
 }
 
 -- constructor
+local cache = {}
+local function load_commit(commit: types.commit)
+
+    cache[commit.id] = commit
+    return commit
+end
 local function try_parse(input: raw_commit, id: types.sha1): types.commit?
 
     local result = matcher:captures(input)
@@ -57,7 +63,6 @@ local function try_parse(input: raw_commit, id: types.sha1): types.commit?
 end
 
 -- functions
-local cache = {}
 local function read_from_id(id: types.sha1): types.commit
 
     if cache[id] then return cache[id] end
@@ -68,11 +73,11 @@ local function read_from_id(id: types.sha1): types.commit
     local commit = try_parse(raw, id)
         or error(`object '{id}' probably isnt a commit\n{raw}`)
 
-    cache[id] = commit
-    return commit
+    return load_commit(commit)
 end
 
 -- module
 return table.freeze {
-    read_from_id = read_from_id
+    read_from_id = read_from_id,
+    _load = load_commit,
 }

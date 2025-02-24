@@ -74,4 +74,6 @@ return table.freeze {
     load_packeds = load_packeds,
     read_from_id = read_from_id,
     pack = pack,
+
+    _load = load_ref,
 }
