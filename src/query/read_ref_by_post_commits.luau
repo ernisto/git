@@ -1,6 +1,5 @@
 local commit = require('@lib/object/commit')
-local head = require('@lib/ref/head')
-local tag = require('@lib/ref/tag')
+local ref = require('@lib/ref')
 
 local types = require('@lib/types')
 type sha1 = types.sha1
@@ -8,14 +7,13 @@ type ref = types.ref
 
 -- util
 local refs_by_commit
-local function map_refs_by_commit(): { [sha1]: ref }
+local function map_refs_by_commit(): { [sha1]: {ref} }
     if refs_by_commit then return refs_by_commit end
     refs_by_commit = {}
 
-    for _,tag in tag.read_all() do
-    end
-    for _,head in head.read_all() do
-        refs_by_commit[head.commit_id] = head
+    for _,ref in ref.read_all() do
+        refs_by_commit[ref.commit_id] = refs_by_commit[ref.commit_id] or {}
+        table.insert(refs_by_commit[ref.commit_id], ref)
     end
     return refs_by_commit
 end
@@ -37,13 +35,11 @@ local function read_ref_by_post_commits(params: params): result
     local commit_id = params.commit_id
 
     while commit_id do
-        local ref = refs_by_commit[commit_id]
-        if ref and (not predicate or predicate(ref)) then
+        local refs = refs_by_commit[commit_id] or {}
+        for _,ref in refs :: {ref} do
+            if predicate and not predicate(ref) then continue end
             for _,traversed_commit_id in post_commit_ids do refs_by_commit[traversed_commit_id] = ref end
-            return table.freeze {
-                ref = ref,
-                post_commit_ids = post_commit_ids,
-            }
+            return table.freeze { ref = ref, post_commit_ids = post_commit_ids }
         end
         table.insert(post_commit_ids, commit_id)
         commit_id = commit.read_from_id(commit_id).prev_commit_id
