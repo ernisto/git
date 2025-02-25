@@ -1,5 +1,9 @@
+local read_descendant_paths = require('@utils/read_descendant_paths')
+local future = require('@pkg/future')
 local fs = require('@lune/fs')
+
 local pack = require('pack')
+local warns = require('@lib/warns')
 
 local types = require('@lib/types')
 type remote = types.remote
@@ -68,11 +72,29 @@ local function read_from_id(id: types.ref_id): ref
     return load_ref(id, commit_id)
 end
 
+local function read_all(): { [string]: types.ref }
+    local refs = table.clone(load_packeds().refs)
+    local futures = {}
+
+    local head_paths = read_descendant_paths('.git/refs', 'refs')
+    warns.so_many_ref_files(#head_paths)
+
+    for _,path in head_paths do
+        table.insert(futures, future.spawn(read_from_id, path))
+    end
+    for _,ref in future.all(futures):await() do
+        refs[ref.name] = ref
+    end
+    return refs
+end
+
 -- module
 return table.freeze {
-    load_packeds = load_packeds,
     read_from_id = read_from_id,
-    pack = pack,
+    read_all = read_all,
 
+    load_packeds = load_packeds,
     _load = load_ref,
+
+    pack = pack,
 }
