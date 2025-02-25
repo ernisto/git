@@ -12,8 +12,7 @@ local function map_refs_by_commit(): { [sha1]: ref }
     if refs_by_commit then return refs_by_commit end
     refs_by_commit = {}
 
-    for _,tag in tag.read_all_tags() do
-        refs_by_commit[tag.commit_id] = tag
+    for _,tag in tag.read_all() do
     end
     for _,head in head.read_all() do
         refs_by_commit[head.commit_id] = head

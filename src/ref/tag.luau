@@ -13,7 +13,7 @@ local function read_from_name(name: string): types.tag
     return read_from_id('refs/tags/'..name)
 end
 
-local function read_all_tags(): { [string]: types.tag }
+local function read_all(): { [string]: types.tag }
     local tags = table.clone(ref.load_packeds().tags)
     local futures = {}
 
@@ -34,5 +34,5 @@ return table.freeze {
     read_from_name = read_from_name,
     read_from_id = read_from_id,
 
-    read_all_tags = read_all_tags,
+    read_all = read_all,
 }
