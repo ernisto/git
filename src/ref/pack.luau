@@ -16,7 +16,7 @@ local function read(): packed_refs
 
     if raw_refs then
         for _,line in string.split(raw_refs, '\n') do
-            local sha, path = string.match(line, "(%S+) (.+)")
+            local sha, path = string.match(line, "^(%w+) (%S+)")
             if sha and path then refs[path] = sha end
         end
     end
