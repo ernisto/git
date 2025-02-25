@@ -25,7 +25,7 @@ local function read_all(): { [string]: types.head }
     local futures = {}
 
     local head_paths = read_descendant_paths('.git/refs/heads', 'refs/heads')
-    warns.so_many_head_files(#head_paths)
+    warns.so_many_ref_files(#head_paths, 'heads')
 
     for _,path in head_paths do
         table.insert(futures, future.spawn(read_from_id, path))

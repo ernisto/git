@@ -2,6 +2,7 @@ local fs = require('@lune/fs')
 local pack = require('pack')
 
 local types = require('@lib/types')
+type remote = types.remote
 type head = types.head
 type ref = types.ref
 type tag = types.tag
@@ -30,32 +31,30 @@ local function load_ref(path: types.ref_id, commit_id: sha1): ref
 end
 
 -- functions
-type loaded_pack = { heads: { [path]: head }, tags: { [path]: tag }, refs: { [path]: ref } }
+type loaded_pack = { remotes: { [path]: remote }, heads: { [path]: head }, tags: { [path]: tag }, refs: { [path]: ref } }
 local loaded
 local function load_packeds(): loaded_pack
     if loaded then return loaded end
 
-    local heads = {}
-    local tags = {}
     local refs = {}
+    loaded = table.freeze {
+        refs = refs,
+        remotes = {},
+        heads = {},
+        tags = {},
+    }
 
     local raw_pack = pack.read()
-    for path, commit_id in raw_pack.heads do
+    for path, commit_id in raw_pack.refs do
         local ref = load_ref(path, commit_id)
-        heads[ref] = ref
-        refs[path] = ref
-    end
-    for path, commit_id in raw_pack.tags do
-        local ref = load_ref(path, commit_id)
-        tags[ref] = ref
+        loaded[ref.kind] = ref
         refs[path] = ref
     end
 
-    loaded = table.freeze {
-        heads = table.freeze(heads),
-        tags = table.freeze(tags),
-        refs = table.freeze(refs),
-    } :: any
+    table.freeze(loaded.remotes)
+    table.freeze(loaded.heads)
+    table.freeze(loaded.tags)
+    table.freeze(loaded.refs)
     return loaded :: any
 end
 local function read_from_id(id: types.ref_id): ref

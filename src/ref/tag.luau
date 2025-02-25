@@ -18,7 +18,7 @@ local function read_all_tags(): { [string]: types.tag }
     local futures = {}
 
     local tag_ids = read_descendant_paths('.git/refs/tags', 'refs/tags')
-    warns.so_many_tag_files(#tag_ids)
+    warns.so_many_ref_files(#tag_ids, 'tags')
 
     for _,tag_id in tag_ids do
         table.insert(futures, future.spawn(read_from_id, tag_id))

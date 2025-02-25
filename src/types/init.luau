@@ -21,8 +21,9 @@ export type user = {
 }
 
 -- git refs
-export type ref = head | tag
+export type ref = remote | head | tag
 export type ref_id = string -- "\w+(/\w+)*"
+export type remote = head
 export type head = {
     kind: 'heads',
     path: path,
