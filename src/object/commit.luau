@@ -9,7 +9,7 @@ local regex = require('@lune/regex')
 -- defs
 export type raw_commit = string
 local matcher = regex.new(table.concat {
-    "(?:commit \\S+ (?<change_id>\\S+))|(?:tree (?<tree_id>\\S+))\n",
+    "(?:commit (?<random_code>\\S+)(?:tree (?<tree_id>\\S+)|(?<change_id> \\S+)))\n",
     "(?:parent (?<prev_commit_id>\\S+)\n)*",
     "(?:author (?<author_name>\\S+) (?<author_email><\\S+?>) (?<timestamp>\\S+) (\\-?(?<timezone_hour>\\d\\d)(?<timezone_minute>\\d\\d))\n)?",
     "(?:committer (?<committer_name>\\S+) (?<committer_email><\\S+?>) \\S+ \\S+\n)",
