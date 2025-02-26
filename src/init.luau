@@ -13,15 +13,15 @@ export type tree = types.tree
 export type glob = types.glob
 
 -- module
-return table.freeze {
-    object = require('object'),
-    commit = require('object/commit'),
+return table.freeze({
+	object = require('object'),
+	commit = require('object/commit'),
 
-    ref = require('ref'),
-    head = require('ref/head'),
-    tag = require('ref/tag'),
+	ref = require('ref'),
+	head = require('ref/head'),
+	tag = require('ref/tag'),
 
-    query = require('query'),
-    user = require('user'),
-    mock = require('mock'),
-}
+	query = require('query'),
+	user = require('user'),
+	mock = require('mock'),
+})
