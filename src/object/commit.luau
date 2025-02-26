@@ -47,7 +47,7 @@ local function try_parse(input: raw_commit, id: types.sha1): types.commit?
 
     local parent_ids = {}
     local capture_texts = destruct_captures(result, { id = id }, schema)
-    for parent_id in string.gmatch(capture_texts.parents or '', "parent (%S+)") do table.insert(parent_ids, parent_id); print('parent:', parent_id) end
+    for parent_id in string.gmatch(capture_texts.parents or '', "parent (%S+)") do table.insert(parent_ids, parent_id) end
 
     local commit = table.freeze {
         id = id,
