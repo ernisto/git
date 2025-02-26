@@ -32,18 +32,24 @@ local function read_ref_by_post_commits(params: params): result
     local refs_by_commit = map_refs_by_commit()
     local post_commit_ids: {sha1} = {}
     local predicate = params.predicate
-    local commit_id = params.commit_id
 
-    while commit_id do
-        local refs = refs_by_commit[commit_id] or {}
-        for _,ref in refs :: {ref} do
-            if predicate and not predicate(ref) then continue end
-            for _,traversed_commit_id in post_commit_ids do refs_by_commit[traversed_commit_id] = ref end
-            return table.freeze { ref = ref, post_commit_ids = post_commit_ids }
+    local commit_ids = {params.commit_id or nil :: never}
+    repeat
+        local next_commit_ids = {}
+        for _,commit_id in commit_ids do
+            local refs = refs_by_commit[commit_id] or {}
+            for _,ref in refs :: {ref} do
+                if predicate and not predicate(ref) then continue end
+                for _,traversed_commit_id in post_commit_ids do refs_by_commit[traversed_commit_id] = ref end
+                return table.freeze { ref = ref, post_commit_ids = post_commit_ids }
+            end
+            for _,parent_id in commit.read_from_id(commit_id).parent_ids do
+                table.insert(next_commit_ids, parent_id)
+            end
+            table.insert(post_commit_ids, commit_id)
         end
-        table.insert(post_commit_ids, commit_id)
-        commit_id = commit.read_from_id(commit_id).prev_commit_id
-    end
+        commit_ids = next_commit_ids
+    until #commit_ids == 0
     return table.freeze {
         post_commit_ids = post_commit_ids,
     }

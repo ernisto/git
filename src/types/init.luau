@@ -44,8 +44,8 @@ export type object = commit | glob | tree
 
 export type commit = {
     id: sha1,
-    change_id: sha1,
-    prev_commit_id: sha1?,
+    tree_id: sha1,
+    parent_ids: {sha1},
 
     author: user,
     committer: user,
