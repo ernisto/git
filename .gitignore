@@ -5,5 +5,8 @@
 .pesde
 
 # packages
+roblox_server_packages
+roblox_packages
 luau_packages
 lune_packages
+node_modules
