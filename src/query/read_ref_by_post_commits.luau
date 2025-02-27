@@ -20,7 +20,7 @@ end
 
 -- module
 type params = {
-	commit_id: sha1?,
+	commit_id: sha1,
 	predicate: nil | (ref) -> (),
 }
 type result = {
@@ -30,10 +30,10 @@ type result = {
 local function read_ref_by_post_commits(params: params): result
 	local refs_by_commit = map_refs_by_commit()
 	local traversed_commit_timestamps: { [sha1]: number } = {}
-	local ordered_commit_ids: { sha1 } = {}
 	local predicate = params.predicate
 
-	local commit_ids = { params.commit_id or nil :: never }
+	local ordered_commit_ids = { params.commit_id }
+	local commit_ids = { params.commit_id }
 	repeat
 		local next_commit_ids = {}
 		for _, commit_id in commit_ids do
