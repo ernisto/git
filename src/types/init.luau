@@ -1,9 +1,16 @@
 -- primitives
+local c_str = require('c_str')
+export type luau_str = c_str.luau_str
+export type c_str = c_str.c_str
+
 local sha1 = require('sha1')
 export type sha1 = sha1.sha1
 
 local u32 = require('u32')
 export type u32 = u32.u32
+
+local u16 = require('u16')
+export type u16 = u16.u16
 
 -- misc
 export type email = string
@@ -62,8 +69,10 @@ export type object_kind = 'commit' | 'tree' | 'blob' | 'tag' | 'offset_delta' | 
 
 -- module
 return table.freeze({
+	c_str = c_str,
 	sha1 = sha1,
 	u32 = u32,
+	u16 = u16,
 
 	object_kind = object_kind :: { object_kind },
 })
