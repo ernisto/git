@@ -1,3 +1,5 @@
 return table.freeze({
-	read_ref_by_post_commits = require('read_ref_by_post_commits'),
+	ref_by_successor_commit = require('ref_by_successor_commit'),
+	tree_child_by_path = require('tree_child_by_path'),
+	staged_files = require('staged_files'),
 })
