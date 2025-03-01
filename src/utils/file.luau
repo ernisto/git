@@ -1,7 +1,5 @@
-local types = require('@lib/types')
-
 export type type = 'symlink' | 'gitlink' | 'directory' | 'regular_file' | 'executable_file'
-local function get_file_type(number: types.u32): type
+local function get_file_type(number: number): type
 	local modes = {
 		[0x1000] = 'symlink',
 		[0x2000] = 'gitlink',
@@ -14,7 +12,7 @@ end
 
 export type group_perms = { read: boolean, write: boolean, exec: boolean }
 export type perms = { owner: group_perms, group: group_perms, others: group_perms }
-local function get_perms(mode: types.u32): perms
+local function get_perms(mode: number): perms
 	return table.freeze {
 		owner = table.freeze {
 			read = bit32.btest(mode, 0x100),
