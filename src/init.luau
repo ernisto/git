@@ -25,6 +25,7 @@ return table.freeze({
 	head = require('ref/head'),
 	tag = require('ref/tag'),
 
+	index = require('index'),
 	query = require('query'),
 	user = require('user'),
 	mock = require('mock'),

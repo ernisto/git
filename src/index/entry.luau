@@ -10,6 +10,25 @@ type sha1 = types.sha1
 local u32 = types.u32
 type u32 = types.u32
 
+-- defs
+export type entry = {
+	path: string,
+	object_id: sha1,
+	flags: bit_flags.flags,
+	mode_perms: file.perms,
+	mode_type: file.type,
+	size: u32?, -- for some reason sometimes is just 0, so i assuming unavailability
+
+	creation_time: number,
+	modification_time: number,
+
+	-- unavailable on windows
+	device_id: u32?,
+	inode_id: u32?,
+	group_id: u32?,
+	user_id: u32?,
+}
+
 -- functions
 function read(buf: buffer, cursor: number): (entry, number)
 	local ctime_s = u32.read_be(buf, cursor)
@@ -76,25 +95,6 @@ function read(buf: buffer, cursor: number): (entry, number)
 	cursor += 8 - (cursor - 12) % 8
 	return entry, cursor
 end
-
--- types
-export type entry = {
-	path: string,
-	object_id: sha1,
-	flags: bit_flags.flags,
-	mode_perms: file.perms,
-	mode_type: file.type,
-	size: u32?, -- for some reason sometimes is just 0, so i assumn unavailability
-
-	creation_time: number,
-	modification_time: number,
-
-	-- unavailable on windows
-	device_id: u32?,
-	inode_id: u32?,
-	group_id: u32?,
-	user_id: u32?,
-}
 
 -- module
 return table.freeze {

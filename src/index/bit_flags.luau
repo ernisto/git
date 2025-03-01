@@ -22,32 +22,6 @@ local flag_masks: { [string]: number } = table.freeze {
 	skip_worktree = 0b0100_0000_0000_0000,
 	extended_2 = 0b1000_0000_0000_0000,
 }
-
--- functions
-local function read(data: buffer, cursor: number): (flags, number)
-	local num = u16.read_be(data, cursor)
-	cursor += u16.size
-
-	local flags = {
-		path_size = bit32.band(num, 0b0000_1111_1111_1111),
-		stage = bit32.band(num, 0b0011_0000_0000_0000),
-		extended = bit32.btest(num, 0b0100_0000_0000_0000),
-		assume_valid = bit32.btest(num, 0b1000_0000_0000_0000),
-	}
-
-	if flags.extended then
-		local extended_flags = u16.read_be(data, cursor)
-		cursor += u16.size
-
-		for flag, mask in flag_masks do
-			flags[flag] = bit32.btest(extended_flags, mask)
-		end
-	end
-
-	return table.freeze(flags), cursor
-end
-
--- types
 export type flags = {
 	-- The mask to obtain the length of the path associated with this entry, up to 4095 characters without extension.
 	path_size: number,
@@ -91,6 +65,30 @@ export type flags = {
 	-- For future extension
 	extended_2: boolean?,
 }
+
+-- functions
+local function read(data: buffer, cursor: number): (flags, number)
+	local num = u16.read_be(data, cursor)
+	cursor += u16.size
+
+	local flags = {
+		path_size = bit32.band(num, 0b0000_1111_1111_1111),
+		stage = bit32.band(num, 0b0011_0000_0000_0000),
+		extended = bit32.btest(num, 0b0100_0000_0000_0000),
+		assume_valid = bit32.btest(num, 0b1000_0000_0000_0000),
+	}
+
+	if flags.extended then
+		local extended_flags = u16.read_be(data, cursor)
+		cursor += u16.size
+
+		for flag, mask in flag_masks do
+			flags[flag] = bit32.btest(extended_flags, mask)
+		end
+	end
+
+	return table.freeze(flags), cursor
+end
 
 -- module
 return table.freeze {

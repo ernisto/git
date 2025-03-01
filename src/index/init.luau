@@ -5,7 +5,7 @@ local u32 = types.u32
 type u32 = types.u32
 
 local index_entry = require('entry')
-type entry = index_entry.entry
+export type entry = index_entry.entry
 
 -- defs
 local SIGNATURE = 'DIRC'
