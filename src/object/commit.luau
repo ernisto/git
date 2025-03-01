@@ -35,7 +35,7 @@ local schema = {
 
 -- constructor
 local cache = {}
-local function load_commit(commit: types.commit)
+local function load_commit(commit: types.commit): types.commit
 	cache[commit.id] = commit
 	return commit
 end
