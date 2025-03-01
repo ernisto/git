@@ -43,7 +43,7 @@ local function read_ref_by_post_commits(params: params): result
 			local timestamp = this_commit.global_timestamp
 			traversed_commit_timestamps[commit_id] = timestamp
 
-			-- decending sorted insert
+			-- ascending sorted insert
 			for index = #ordered_commit_ids, 1, -1 do
 				local prev_commit_id = ordered_commit_ids[index]
 				if timestamp >= traversed_commit_timestamps[prev_commit_id] then continue end
