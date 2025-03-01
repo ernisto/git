@@ -6,6 +6,7 @@ export type sha1 = types.sha1
 export type ref = types.ref
 export type tag = types.tag
 export type head = types.head
+export type remote = types.remote
 
 export type object = types.object
 export type commit = types.commit
@@ -19,6 +20,7 @@ return table.freeze({
 	tree = require('object/tree'),
 
 	ref = require('ref'),
+	remote = require('ref/remote'),
 	head = require('ref/head'),
 	tag = require('ref/tag'),
 
