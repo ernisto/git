@@ -10,10 +10,10 @@ local read_u16_le = buffer.readu16
 local write_u16_le = buffer.writeu16
 
 local function read_u16_be(data: buffer, cursor: number): u16
-	return bit32.byteswap(buffer.readu16(data, cursor))
+	return bit32.rshift(bit32.byteswap(buffer.readu16(data, cursor)), 16)
 end
 local function write_u16_be(data: buffer, cursor: number, number: u16)
-	buffer.writeu16(data, cursor, bit32.byteswap(number))
+	buffer.writeu16(data, cursor, bit32.byteswap(bit32.lshift(number, 16)))
 end
 
 local function from_string(input: string): u16?
