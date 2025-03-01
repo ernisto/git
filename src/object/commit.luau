@@ -53,7 +53,7 @@ local function try_parse(input: raw_commit, id: types.sha1): types.commit?
 		id = id,
 		tree_id = capture_texts.tree_id,
 		parent_ids = parent_ids,
-		local_timestamp = tonumber(capture_texts.timestamp) :: never,
+		local_timestamp = tonumber(capture_texts.timestamp) or error(`couldnt parse timestamp`),
 		global_timestamp = capture_texts.timestamp
 			+ (tonumber(capture_texts.timezone_hour) or 0) * 60 * 60
 			+ (tonumber(capture_texts.timezone_minute) or 0) * 60,
