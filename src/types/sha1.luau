@@ -18,7 +18,8 @@ local function read_sha1(data: buffer, cursor: number): (sha1, number)
 		u32.read_be(data, cursor + 8),
 		u32.read_be(data, cursor + 12),
 		u32.read_be(data, cursor + 16) :: number
-	), cursor + SHA1_SIZE
+	),
+		cursor + SHA1_SIZE
 end
 local function write_sha1(data: buffer, cursor: number, sha1: sha1): number
 	u32.write_be(data, cursor + 0, tonumber(string.sub(sha1, 1, 8), 16) :: never)

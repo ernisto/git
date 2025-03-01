@@ -14,11 +14,10 @@ export type data_index = {
 }
 
 -- constructor
-local cache = {}
-local function read(id: types.sha1): data_index
-	if cache[id] then return cache[id] end
+local cache: { [types.path]: data_index } = {}
+local function read_from_path(path: types.path): data_index
+	if cache[path] then return cache[path] end
 
-	local path = `.git/objects/pack/pack-{id}.pack`
 	local raw = fs.readFile(path)
 	local data = buffer.fromstring(raw)
 
@@ -37,13 +36,16 @@ local function read(id: types.sha1): data_index
 	})
 
 	-- end
-	cache[id] = content
+	cache[path] = content
 	return content
+end
+local function read_from_id(id: types.sha1): data_index
+	return read_from_path(`.git/objects/pack/pack-{id}.pack`)
 end
 
 -- functions
 local function read_addr(id: types.sha1, cursor: u32): (string, types.object_kind)
-	local file = read(id)
+	local file = read_from_id(id)
 	if file.cache[cursor] then return unpack(file.cache[cursor] :: any) end
 
 	local data = file.data
@@ -75,5 +77,7 @@ end
 
 -- module
 return table.freeze({
+	read_from_path = read_from_path,
+	read_from_id = read_from_id,
 	read_addr = read_addr,
 })

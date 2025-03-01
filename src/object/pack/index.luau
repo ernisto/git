@@ -17,11 +17,10 @@ export type pack_index = {
 }
 
 -- constructor
-local cache: { [sha1]: pack_index } = {}
-local function read_id(pack_id: sha1): pack_index
-	if cache[pack_id] then return cache[pack_id] end
+local cache: { [types.path]: pack_index } = {}
+local function read_from_path(path: types.path): pack_index
+	if cache[path] then return cache[path] end
 
-	local path = `.git/objects/pack/pack-{pack_id}.idx`
 	local data = buffer.fromstring(fs.readFile(path))
 	local cursor = 0
 
@@ -43,6 +42,7 @@ local function read_id(pack_id: sha1): pack_index
 		cursor += u32.size
 	end
 
+	-- object
 	local objects_amount = fanout[256]
 	local idx = table.freeze({
 		data = data,
@@ -52,13 +52,16 @@ local function read_id(pack_id: sha1): pack_index
 	})
 
 	-- end
-	cache[pack_id] = idx
+	cache[path] = idx
 	return idx
+end
+local function read_from_id(pack_id: sha1): pack_index
+	return read_from_path(`.git/objects/pack/pack-{pack_id}.idx`)
 end
 
 -- functions
 local function find_object_id(pack_id: sha1, object_id: sha1): (u32, u32)
-	local idx_file = read_id(pack_id)
+	local idx_file = read_from_id(pack_id)
 	local objects_amount = idx_file.objects_amount
 	local data = idx_file.data
 	local fanout = idx_file.fanout
@@ -99,5 +102,6 @@ end
 -- module
 return table.freeze({
 	search_object_id = search_object_id,
-	read_id = read_id,
+	read_from_path = read_from_path,
+	read_from_id = read_from_id,
 })

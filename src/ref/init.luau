@@ -47,8 +47,8 @@ local function load_packeds(): loaded_pack
 		tags = {},
 	})
 
-	local raw_pack = pack.read()
-	for path, commit_id in raw_pack do
+	local raw_pack = pack.read() or {}
+	for path, commit_id in raw_pack :: any do
 		local ref = load_ref(path, commit_id)
 		loaded[ref.kind][path] = ref
 		refs[path] = ref

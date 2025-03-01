@@ -1,6 +1,6 @@
 -- defs
 local U16_SIZE = 16 / 8
-local LIMIT = 2^16
+local LIMIT = 2 ^ 16
 
 export type u16 = number
 export type raw_number = string

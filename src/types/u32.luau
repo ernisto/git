@@ -1,6 +1,6 @@
 -- defs
 local U32_SIZE = 32 / 8
-local LIMIT = 2^32
+local LIMIT = 2 ^ 32
 
 export type u32 = number
 export type raw_number = string
