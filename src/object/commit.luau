@@ -65,6 +65,7 @@ local function try_parse(input: raw_commit, id: types.sha1): types.commit?
 	if string.find(commit.message.body or '', '\n') then
 		commit.message.body, commit.message.footer = commit.message.body:match('(.*)\n+([^\n]+)\n?$')
 	end
+	table.freeze(commit.message)
 	return commit
 end
 
@@ -73,7 +74,6 @@ local function read_from_id(id: types.sha1): types.commit
 	if cache[id] then return cache[id] end
 
 	local raw = object.read_from_id(id) or error(`couldnt possible read object '{id}'`)
-
 	local commit = try_parse(raw, id) or error(`object '{id}' probably isnt a commit\n{raw}`)
 
 	return load_commit(commit)
