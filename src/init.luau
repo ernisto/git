@@ -8,6 +8,7 @@ export type tag = types.tag
 export type head = types.head
 export type remote = types.remote
 
+export type tree_child = types.tree_child
 export type object = types.object
 export type commit = types.commit
 export type tree = types.tree

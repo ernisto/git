@@ -62,15 +62,14 @@ export type commit = {
 	global_timestamp: number,
 	message: message,
 }
+export type tree_child = {
+	mode: file.type,
+	id: sha1,
+}
 export type tree = {
 	id: sha1,
 	size: number,
-	children: {
-		[string]: {
-			mode: file.type,
-			id: sha1,
-		},
-	},
+	children: { [string]: tree_child },
 }
 export type glob = {}
 
