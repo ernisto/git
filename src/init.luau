@@ -16,6 +16,7 @@ export type glob = types.glob
 return table.freeze({
 	object = require('object'),
 	commit = require('object/commit'),
+	tree = require('object/tree'),
 
 	ref = require('ref'),
 	head = require('ref/head'),

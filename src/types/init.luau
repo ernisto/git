@@ -1,3 +1,5 @@
+local file = require('@utils/file')
+
 -- primitives
 local c_str = require('c_str')
 export type luau_str = c_str.luau_str
@@ -60,7 +62,16 @@ export type commit = {
 	global_timestamp: number,
 	message: message,
 }
-export type tree = {}
+export type tree = {
+	id: sha1,
+	size: number,
+	children: {
+		[string]: {
+			mode: file.type,
+			id: sha1,
+		},
+	},
+}
 export type glob = {}
 
 -- consts
