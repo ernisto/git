@@ -71,7 +71,11 @@ export type tree = {
 	size: number,
 	children: { [string]: tree_child },
 }
-export type glob = {}
+export type glob = {
+	id: sha1,
+	size: number,
+	content: string,
+}
 
 -- consts
 local object_kind: any = table.freeze({ 'commit', 'tree', 'blob', 'tag', 'offset_delta', 'ref_delta' })

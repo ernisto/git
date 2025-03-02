@@ -19,6 +19,7 @@ return table.freeze({
 	object = require('object'),
 	commit = require('object/commit'),
 	tree = require('object/tree'),
+	glob = require('object/glob'),
 
 	ref = require('ref'),
 	remote = require('ref/remote'),
