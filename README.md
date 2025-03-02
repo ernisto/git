@@ -11,6 +11,30 @@ pesde add ernisto/git
 # Documentation
 
 ### querys
+
+```luau
+local function query.staged_files(index: git.index, tree: git.tree): { git.entry }
+
+local branch = git.head.read_current()
+local last_commit = git.commit.read_from_id(branch.commit_id)
+local tree = git.tree.read_from_id(last_commit.tree_id)
+local index = git.index.read_local()
+
+local staged_file_entries = git.query.staged_files(index, tree)
+lint_files(staged_file_entries)
+```
+
+```luau
+local function get_tree_child_by_path(root: git.tree, path: string): git.tree_child?
+
+local branch = git.head.read_current()
+local last_commit = git.commit.read_from_id(branch.commit_id)
+local tree = git.tree.read_from_id(last_commit.tree_id)
+
+local child = query.tree_child_by_path(tree, 'src/server/init.luau')
+local blob = git.blob.read_from_id(child.id)
+```
+
 ```luau
 function query.ref_by_later_commit(params: {
     commit_id: sha1,
