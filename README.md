@@ -31,13 +31,18 @@ local result = git.query.read_ref_by_post_commits {
 local tag = result.ref or error(`no tag found`)
 ```
 
-### object (commits, ~~trees~~ and ~~globs~~)
+### object (commits, trees and globs)
 
 ```luau
 function object.read_from_id(object_id: sha1): raw_object
+function commit.read_from_id(object_id: sha1): commit
+function tree.read_from_id(object_id: sha1): tree
+function glob.read_from_id(object_id: sha1): glob
 
 local raw_object = object.read_from_id("2387d09d9d5e17162cee849db9595255eb0e0d01")
 local commit = commit.read_from_id("2387d09d9d5e17162cee849db9595255eb0e0d01")
+local tree = tree.read_from_id(commit.tree_id)
+local glob = glob.read_from_id(tree.entries[1].id)
 ```
 
 ### ref (branches and tags)
