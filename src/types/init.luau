@@ -49,7 +49,7 @@ export type tag = {
 }
 
 -- git objects
-export type object = commit | glob | tree
+export type object = commit | blob | tree
 
 export type commit = {
 	id: sha1,
@@ -71,7 +71,7 @@ export type tree = {
 	size: number,
 	children: { [string]: tree_child },
 }
-export type glob = {
+export type blob = {
 	id: sha1,
 	size: number,
 	content: string,

@@ -16,14 +16,14 @@ export type tree_child = types.tree_child
 export type object = types.object
 export type commit = types.commit
 export type tree = types.tree
-export type glob = types.glob
+export type blob = types.blob
 
 -- module
 return table.freeze({
 	object = require('object'),
 	commit = require('object/commit'),
 	tree = require('object/tree'),
-	glob = require('object/glob'),
+	blob = require('object/blob'),
 
 	ref = require('ref'),
 	remote = require('ref/remote'),
