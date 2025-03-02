@@ -12,12 +12,12 @@ pesde add ernisto/git
 
 ### querys
 ```luau
-function read_ref_by_post_commits(params: {
+function query.ref_by_later_commit(params: {
     commit_id: sha1,
     predicate: nil|(ref) -> boolean?
 }): {
     ref: ref?,
-    commit_ids: {sha1},
+    later_commit_ids: {sha1},
 }
 
 local function is_tag(ref: git.ref)

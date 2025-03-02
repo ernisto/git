@@ -25,9 +25,9 @@ type params = {
 }
 type result = {
 	ref: ref?,
-	post_commit_ids: { sha1 },
+	later_commit_ids: { sha1 },
 }
-local function read_ref_by_post_commits(params: params): result
+local function query_ref_by_later_commit(params: params): result
 	local refs_by_commit = map_refs_by_commit()
 	local traversed_commit_timestamps: { [sha1]: number } = {}
 	local predicate = params.predicate
@@ -59,7 +59,7 @@ local function read_ref_by_post_commits(params: params): result
 				for _, traversed_commit_id in ordered_commit_ids do
 					refs_by_commit[traversed_commit_id] = ref
 				end
-				return table.freeze({ ref = ref, post_commit_ids = ordered_commit_ids })
+				return table.freeze({ ref = ref, later_commit_ids = ordered_commit_ids })
 			end
 
 			-- queue all parents for next iteration
@@ -70,8 +70,8 @@ local function read_ref_by_post_commits(params: params): result
 		commit_ids = next_commit_ids
 	until #commit_ids == 0
 
-	return table.freeze({ post_commit_ids = ordered_commit_ids })
+	return table.freeze({ later_commit_ids = ordered_commit_ids })
 end
 
 -- end
-return read_ref_by_post_commits
+return query_ref_by_later_commit
