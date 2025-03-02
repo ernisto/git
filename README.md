@@ -55,6 +55,17 @@ local result = git.query.read_ref_by_post_commits {
 local tag = result.ref or error(`no tag found`)
 ```
 
+### index
+
+```luau
+local function read_local(): index
+
+local index = git.index.read_local()
+for _,entry in index.entries do
+    print('git are observing', entry.path)
+end
+```
+
 ### object (commits, trees and globs)
 
 ```luau
