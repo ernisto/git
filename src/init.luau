@@ -1,8 +1,12 @@
 local types = require('@lib/types')
+local index = require('index')
 
 export type user = types.user
 export type sha1 = types.sha1
+export type entry = index.entry
+export type index = index.index
 
+export type ref_id = types.ref_id
 export type ref = types.ref
 export type tag = types.tag
 export type head = types.head
